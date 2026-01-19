@@ -1,0 +1,501 @@
+# Feature overview and tutorial
+
+## Setup
+
+Load the package:
+
+``` r
+library(taxplore)
+```
+
+### Snapshot configuration (optional)
+
+The charts can be embedded in static documents (PDF, Word, etc.). See
+also [auto-snapshots](#auto-snapshots) below. Here we run the small
+small helper function
+[`taxplore_configure_snapshot()`](https://markschl.github.io/taxplore/reference/taxplore_configure_snapshot.md),
+which makes sure that snapshots are PNG images with a resolution of 300
+DPI. This is only relevant if “knitting” this document to PDF or Word,
+etc. Otherwise, this has no effect.
+
+``` r
+taxplore_configure_snapshot()
+```
+
+> **Note** This function modifies the `dev`, `dpi` and `screenshot.opts`
+> settings for *all* chunks. However, it is always possible to override
+> the settings for individual chunks.
+
+## Data formats
+
+### Long format without abundances
+
+The example dataset used in this tutorial contains 54 records of
+macrofungi identified during two surveys on a grassland plot in
+Switzerland.
+
+The `grasslandfungi.records` version of the dataset simply consists of
+taxonomic lineages, one row per record (taxa can be repeated):
+
+``` r
+data(grasslandfungi.records)
+head(grasslandfungi.records)
+#>   kingdom        phylum          class      order         family       genus
+#> 1   Fungi Basidiomycota Agaricomycetes Agaricales Hygrophoraceae  Gliophorus
+#> 2   Fungi Basidiomycota Agaricomycetes Russulales    Russulaceae   Lactarius
+#> 3   Fungi Basidiomycota Agaricomycetes Agaricales    Inocybaceae     Inocybe
+#> 4   Fungi Basidiomycota Agaricomycetes Agaricales Cortinariaceae Cortinarius
+#> 5   Fungi Basidiomycota Agaricomycetes Agaricales Entolomataceae    Entoloma
+#> 6   Fungi Basidiomycota Agaricomycetes Russulales    Russulaceae     Russula
+#>                  species
+#> 1 Gliophorus psittacinus
+#> 2   Lactarius deterrimus
+#> 3         Inocybe oreina
+#> 4  Cortinarius infractus
+#> 5                   <NA>
+#> 6      Russula sanguinea
+```
+
+The taxonomic hierarchy of the records from the two visits can easily be
+displayed, whereby the widths are proportional to taxa abundances:
+
+``` r
+plot_krona(grasslandfungi.records)
+```
+
+### Hierarchy + abundances
+
+Another version of the dataset (`grasslandfungi`) has aggregated
+taxonomic lineages along with taxa abundances for both visits, as well
+as the total record count:
+
+``` r
+data(grasslandfungi)
+head(grasslandfungi[c('family', 'species', 'visit_1', 'visit_2', 'n_total')])
+#>              family                 species visit_1 visit_2 n_total
+#> Cnrc   Bolbitiaceae       Conocybe rickenii       0       2       2
+#> Pncm   Bolbitiaceae    Panaeolus acuminatus       0       2       2
+#> Pnpp   Bolbitiaceae Panaeolus papilionaceus       1       0       1
+#> Clvr   Clavariaceae         Clavaria fumosa       1       0       1
+#> Crnf Cortinariaceae   Cortinarius infractus       1       0       1
+#> Crsp Cortinariaceae   Cortinarius spilomeus       0       2       2
+```
+
+If the taxa are simply provided without abundances, every one of them
+obtains the same weight in the chart as well (=visualization of
+presences/detections):
+
+``` r
+tax_ranks <- names(grasslandfungi.records)
+plot_krona(grasslandfungi[tax_ranks])
+```
+
+To scale by abundance, we supply `n_total` as second argument:
+
+``` r
+plot_krona(grasslandfungi[tax_ranks], grasslandfungi$n_total)
+```
+
+> The second `magnitude` argument can also be a *matrix/data frame* with
+> abundances from different surveys (samples, datasets), which can
+> optionally be displayed separately (see [datasets](#datasets), more
+> details in the
+> [`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md)
+> documentation). By default, taxa widths are scaled by the row totals.
+> Consequently, supplying `grasslandfungi[c('visit_1', 'visit_2')]` as
+> `magnitude` gives the same result as supplying
+> `grasslandfungi$n_total`.
+
+### Phyloseq objects
+
+The popular [phyloseq](https://joey711.github.io/phyloseq) format is
+supported out of the box, see
+[`vignette("phyloseq")`](https://markschl.github.io/taxplore/articles/phyloseq.md).
+
+### Hierarchical list data structure
+
+Alternatively, the classification can be a hierarchical data structure
+composed of nested lists:
+
+``` r
+classification <- list(
+  name = 'Root',
+  n = 15,
+  list(
+    name = 'A',
+    n = 10,
+    list(name = 'A.1', n = 5),
+    list(name = 'A.2', n = 3)
+  ),
+  list(name = 'B', n = 5)
+)
+plot_krona(classification)
+```
+
+> The node attribute `name` is mandatory. The `n` attribute indicates
+> the magnitude and can be omitted or named differently
+> (`magnitude = 'othername'`)
+
+### Pre-generated HTML charts
+
+Finally, it is possible to directly display file containing a Krona
+chart:
+
+``` r
+plot_krona(file = 'https://krona.sourceforge.net/examples/xml.krona.html')
+```
+
+… or
+[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md)
+can display HTML code stored in a character string. In this example, the
+HTML is generated by
+[`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md):
+
+``` r
+chart_html <- make_krona(classification)
+plot_krona(chart_html)
+```
+
+## Chart generation options
+
+So far,
+[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md)
+has been used to directly display the Krona charts as [HTML
+widget](http://htmlwidgets.org). Behind the scenes,
+[`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md)
+acts as the “working horse” for generating the chart code. This function
+can be used in the same way as
+[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md),
+but returns the HTML as character string instead of a HTML widget. Both
+functions can also save the chart to a HTML file with `outfile`:
+
+``` r
+# save HTML in character string
+chart_html <- make_krona(classification)
+# display AND save the chart
+plot_krona(chart_html, outfile = 'chart.html')
+# save the chart
+make_krona(classification, outfile = 'chart.html')
+```
+
+The two functions offer almost all features of the original [Krona
+software](https://github.com/marbl/Krona/wiki), as described in the
+following. The generated charts are identical or almost identical as the
+ones generated by Krona.
+
+### Datasets
+
+Multiple datasets can grouped within the same chart, selectable from a
+list in the **top-left corner**.
+
+In this example the two separate surveys from the grassland fungi
+dataset are visualized separately (`visit_1` and `visit_2`). To prevent
+the aggregation of the counts across the `visit_1` and `visit_2`
+magnitude columns, we have to specify `dataset_group = 'separate'`:
+
+``` r
+plot_krona(grasslandfungi[tax_ranks],
+       grasslandfungi[c('visit_1', 'visit_2')],
+       dataset_group = 'separate')
+```
+
+> In static contexts without user interaction (PDF, Word, etc.), a
+> snapshot of the first dataset (*visit_1*) is taken.
+
+> `dataset_group` can also be a character vector of length
+> `ncol(magnitude)`; for phyloseq objects `group_vars` can be specified
+> (see vignette(“phyloseq”)\`).
+
+### Data-dependent custom coloring
+
+See
+[`vignette("phyloseq")`](https://markschl.github.io/taxplore/articles/phyloseq.md)
+
+### Attributes: Displaying extra information
+
+Additional taxon-specific information can be displayed in the
+**top-right corner** when clicking on a node of the hierarchy. This
+extra-information is configured through
+[`ChartAttribute()`](https://markschl.github.io/taxplore/reference/ChartAttribute.md).
+
+For example, the grassland fungi dataset has three more columns with
+useful information: the current IUCN redlist status in Switzerland, and
+taxon IDs in the [GBIF](https://www.gbif.org) and
+[SwissFungi](https://www.wsl.ch/map_fungi) databases:
+
+``` r
+head(grasslandfungi[c('species', 'redlist_CH', 'gbif_taxon_id', 'swissfungi_taxon_id')])
+#>                      species redlist_CH gbif_taxon_id swissfungi_taxon_id
+#> Cnrc       Conocybe rickenii         LC       2529824                1219
+#> Pncm    Panaeolus acuminatus         VU       2526744                5195
+#> Pnpp Panaeolus papilionaceus         LC       3317061                5207
+#> Clvr         Clavaria fumosa         EN       5244508                 952
+#> Crnf   Cortinarius infractus         LC       8168239                1640
+#> Crsp   Cortinarius spilomeus         LC       9174514                1852
+```
+
+We can now add all the redlist status and GBIF + SwissFungi links to the
+chart (explore by clicking on taxa and observing the top-right corner):
+
+``` r
+attrs <- list(
+  ChartAttribute('Redlist status', data = grasslandfungi$redlist_CH),
+  ChartAttribute(
+    'GBIF',
+    data = as.character(grasslandfungi$gbif_taxon_id),
+    hrefBase = 'https://www.gbif.org/species/',
+    missing_value = NA_character_
+  ),
+  ChartAttribute(
+    'SwissFungi',
+    data = as.character(grasslandfungi$swissfungi_taxon_id),
+    # to display text instead of the ID (be aware that this makes HTML files larger)
+    # text = 'SwissFungi',
+    hrefBase = 'https://www.wsl.ch/map_fungi/search?taxon='
+  )
+)
+
+plot_krona(grasslandfungi[tax_ranks], grasslandfungi$n_total, attributes=attrs,
+       total_label = 'Records')
+```
+
+> [`ChartAttribute()`](https://markschl.github.io/taxplore/reference/ChartAttribute.md)
+> offers some more options for customizing URLs and displayed text
+
+> **Note on higher taxonomic ranks**: If numeric IDs were provided, they
+> would be averaged at higher ranks, which produces incorrect IDs for
+> the *genus*, *family*, etc. ranks. Therefore, we specified
+> `as.character(taxon_id)`; as text data is only shown if all child
+> nodes are consistent. Alternatively, specify `only_ranks = 'species'`.
+> See also *summary_fn* in
+> [`ChartAttribute()`](https://markschl.github.io/taxplore/reference/ChartAttribute.md).
+
+Even adding extra information for only one or a few nodes in the
+hierarchy is possible, assuming that both the classification *and* the
+`magnitudes` data have row names to identify them. Here we link the
+global redlist page for [*Ramaria broomei = Phaeoclavulina
+macrospora*](https://redlist.info/iucn/species_view/111880) (zoom into
+Gomphaceae and click on the species to see the link):
+
+``` r
+attrs <- list(
+  #...
+  ChartAttribute(
+    'Global redlist',
+    data = c(Phmc = '111880'),
+    text = 'VU C2a(i)',
+    hrefBase = 'https://redlist.info/iucn/species_view/'
+  )
+)
+
+plot_krona(grasslandfungi[tax_ranks],
+       grasslandfungi[,'n_total', drop = FALSE],
+       attributes = attrs)
+```
+
+#### Attributes in hierarchical list classification
+
+In a [hierarchical list data
+structure](#hierarchical-list-data-structure), attribute information is
+easily added:
+
+``` r
+classification <- list(
+  name = 'Root',
+  n = 15,
+  list(
+    name = 'A',
+    n = 10,
+    info = 'Info about A'
+  )
+  #(...)
+)
+plot_krona(classification, attributes = list(
+  ChartAttribute('info', displayName = 'Information')  # displayName is optional
+))
+```
+
+### Advanced HTML chart options
+
+Behind the scenes,
+[`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md)
+assembles an [XML
+document](https://github.com/marbl/Krona/wiki/Krona-2.0-XML-Specification)
+document, which is then passed to
+[`generate_krona_html()`](https://markschl.github.io/taxplore/reference/generate_krona_html.md).
+
+#### Use KronaTools instead
+
+To use the official [Krona toolset](https://github.com/marbl/Krona)
+instead of the internal method, specify
+`make_krona(..., method = 'kronatools')` (see
+[`kt_import_xml()`](https://markschl.github.io/taxplore/reference/kt_import_xml.md)).
+The result should usually be the same.
+
+#### Remote resources instead of self-contained HTML
+
+By default, Krona charts are self-contained HTML files that can be
+displayed without internet connection. Images and the JavaScript code
+are embedded in every file. If generating many files, an external
+resources directory can be specified (see `KronaOpts()`):
+
+``` r
+plot_krona(grasslandfungi.records, resources_url = 'https://marbl.github.io/Krona/')
+```
+
+> Use `set_krona_opts()` to set this option for all following charts.
+
+To copy the assets delivered with this R package (= latest Krona code
+and some images,
+[`d1479b3`](https://github.com/marbl/Krona/commits/master)) to a target
+directory, call:
+
+``` r
+copy_krona_resources('resources')
+```
+
+#### Optimize HTML file size
+
+A little space can be saved by including a “minified” version of the
+JavaScript code:
+
+``` r
+plot_krona(classification, minify = TRUE)
+set_krona_opts(minify = TRUE)
+```
+
+## Styling embedded charts
+
+The appearance of Krona charts can be changed with buttons and
+checkboxes, etc., and default values can be configured for every of
+these. If displaying the chart in a browser, the initial appearance can
+be configured with URL parameters added to the URL
+(`...?key1=value1&key2=value2`),
+e.g. <http://marbl.github.io/Krona/examples/phymmbl.krona.html?depth=3&font=15>.
+
+For charts embedded in R-Markdown, `display = ChartDisplayOpts(...)` can
+be specified:
+
+``` r
+plot_krona(grasslandfungi.records,
+       display = ChartDisplayOpts(font = 15, showMagnitude = TRUE))
+```
+
+> In R-Markdown chunks, set `cache = FALSE` if adjusting display options
+> has no effect.
+
+To make all following charts look the same, use:
+
+``` r
+set_chart_display_opts(font = 15, showMagnitude = TRUE)
+```
+
+## Auto-snapshots
+
+In “static” documents such as PDF, Word, etc., snapshots are
+automatically taken. In this “snapshot mode”, no buttons and other
+controls are shown. This behavior can be forced (or prevented) with the
+`interactive` option in
+[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md):
+
+``` r
+plot_krona(grasslandfungi.records, interactive = FALSE)
+```
+
+It is also possible to force a snapshot in interactive contexts by
+setting the R-Markdown chunk option `screenshot.force = TRUE` *and*
+calling
+[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md)
+with `interactive = FALSE`. To do this globally for all chunks:
+
+``` r
+set_chart_opts(interactive = FALSE)
+knitr::opts_chunk$set(screenshot.force = TRUE)
+```
+
+To create a snapshot image (not HTML file) manually:
+
+``` r
+make_krona(grasslandfungi.records, 
+           outfile = 'chart.html',
+           snapshot = TRUE)
+webshot2::webshot('chart.html', 'chart-snapshot.png', 672, 480)
+# file.remove('chart.html')
+```
+
+### Details on snapshot formats
+
+On top of this tutorial, the snapshot format was set to PNG. In PDF
+documents, the default would be to embed the charts as vector graphics
+and text. But generating PNG images instead can be useful due to
+different reasons:
+
+- file sizes can be smaller for complex charts
+- thin lines may look nicer
+- the resolution might not be correct (see
+  [issue](https://github.com/yihui/knitr/issues/2276#issuecomment-1686298985))
+
+But you can still try without these settings (leave `dev = NULL`) to see
+how it looks like. Also, the PNG dimensions might not be correct (see
+also [below](#auto-snapshots)).
+
+### Plot dimensions
+
+The charts may be sized differently depending on the context:
+
+**Inline view in R-Markdown chunks (RStudio)**: Always the same size
+
+**HTML documents**: Charts are sized with `fig.width` and `fig.height`
+chunk options (in inches)
+
+**PDF/Word documents**: HTML widget snapshots seem to always be scaled
+to the **full width** in the output, but still the image resolution and
+font size are determined by `fig.width`/`fig.height` and `dpi` settings.
+Figure dimensions around 6-7 inches should look as expected (consider
+setting this at the top of the document:
+`knitr::opts_chunk$set(fig.width=6, fig.height=6)`). To make plots
+smaller, it is possible to modify `out.width`
+(e.g. `knitr::opts_chunk$set(out.width = '50%')`). However, the
+resolution (`dpi`) and font size (`ChartDisplayOpts(font = 15)`) may
+need to be adjusted.
+
+## Shiny apps
+
+This example code shows how to use these charts in a Shiny app (opens in
+a separate window). It also requires *phyloseq* to be installed.
+
+``` r
+library(shiny)
+library(phyloseq)
+library(taxplore)
+
+data(GlobalPatterns, enterotype)
+
+# each dataset is a list(taxonomy, magnitude)
+datasets <- list(
+  `Survey of grassland fungi` = list(grasslandfungi[tax_ranks], grasslandfungi$n_total),
+  `Global patterns of 16S diversity` = list(tax_table(GlobalPatterns), taxa_sums(GlobalPatterns)),
+  `Enterotypes of the human gut microbiome` = list(tax_table(enterotype), taxa_sums(enterotype))
+)
+
+ui <- bslib::page_fluid(
+  titlePanel('Visualize community datasets'),
+  radioButtons(
+    'dataset',
+    'Select dataset',
+    choices = names(datasets),
+    selected = names(datasets)[1]
+  ),
+  checkboxInput('use_abund', 'Use abundances', value = TRUE),
+  KronaChartOutput('chart', height='40em')
+)
+
+server <- function(input, output) {
+  output$chart <- renderKronaChart({
+    d <- datasets[[input$dataset]]
+    plot_krona(d[[1]], magnitude = if (input$use_abund) d[[2]])
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
