@@ -1,12 +1,12 @@
 ---
-title: "Phyloseq datset examples"
+title: "Phyloseq dataset examples"
 output:
   rmarkdown::html_vignette: default
   html_document: default
   word_document: default
   pdf_document: default
 vignette: >
-  %\VignetteIndexEntry{Phyloseq datset examples}
+  %\VignetteIndexEntry{Phyloseq dataset examples}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

@@ -2,16 +2,16 @@
 title: "Feature overview and tutorial"
 output:
   rmarkdown::html_vignette:
-    df_print: kable
+    df_print: !expr pander::pander
   html_document:
     df_print: paged
   pdf_document:
     df_print: kable
   word_document: default
 vignette: >
-  %\\\\VignetteIndexEntry{Feature overview and tutorial}
-  %\\\\VignetteEncoding{UTF-8}
-  %\\\\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Feature overview and tutorial}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -20,6 +20,13 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 knitr::opts_chunk$set(fig.width=6, fig.height=6)
+```
+
+## Installation
+
+```{r eval = FALSE}
+# install.packages('remotes')
+remotes::install_github('markschl/taxplore')
 ```
 
 ## Setup
@@ -50,7 +57,7 @@ The `grasslandfungi.records` version of the dataset simply consists of taxonomic
 
 ```{r}
 data(grasslandfungi.records)
-head(grasslandfungi.records)
+head(grasslandfungi.records[c(3:5, 7)])
 ```
 
 The taxonomic hierarchy of the records from the two visits can easily be displayed, whereby the widths are proportional to taxa abundances:
@@ -294,7 +301,7 @@ set_chart_display_opts(font = 15, showMagnitude = TRUE, key = FALSE)
 
 In "static" documents such as PDF, Word, etc., snapshots are automatically taken. In this "snapshot mode", no buttons and other controls are shown. This behavior can be forced (or prevented) with `interactive = TRUE` or `interactive = FALSE`:
 
-```{r}
+```{r eval = FALSE}
 plot_krona(grasslandfungi.records, interactive = FALSE)
 ```
 
