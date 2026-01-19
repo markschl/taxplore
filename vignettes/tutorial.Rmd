@@ -292,9 +292,9 @@ set_chart_display_opts(font = 15, showMagnitude = TRUE, key = FALSE)
 
 ## Auto-snapshots
 
-In "static" documents such as PDF, Word, etc., snapshots are automatically taken. In this "snapshot mode", no buttons and other controls are shown. This behavior can be forced (or prevented) with the `interactive` option in `plot_krona()`:
+In "static" documents such as PDF, Word, etc., snapshots are automatically taken. In this "snapshot mode", no buttons and other controls are shown. This behavior can be forced (or prevented) with `interactive = TRUE` or `interactive = FALSE`:
 
-```{r eval = FALSE}
+```{r}
 plot_krona(grasslandfungi.records, interactive = FALSE)
 ```
 

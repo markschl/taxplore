@@ -1,8 +1,6 @@
-_*
+/_*
 *~
 taxdb/
-vignettes/*.html
-vignettes/*.pdf
 docs/
 .Rproj.user
 .Rhistory
