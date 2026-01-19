@@ -22,7 +22,7 @@ Imports:
     htmlwidgets (>= 1.5.4)
 Config/Needs/website:
     phyloseq,
-    DESeq2
+    pander
 Suggests: 
     knitr (>= 1.50.5),
     rmarkdown,
