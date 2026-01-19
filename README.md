@@ -1,12 +1,12 @@
 taxplore: R package for generating and displaying Krona charts
 ================
 
-<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
+<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" style="margin-left:1em; max-width: 15em" align="right" /></a>
 
 This [R](https://cran.r-project.org) package provides functions for
 creating [Krona charts](https://github.com/marbl/Krona/wiki) and
 displaying/embedding them as [HTML
-widget](https://github.com/ramnathv/htmlwidgets) in different contexts
+widget](https://www.htmlwidgets.org) in different contexts
 or using them in [Shiny](https://shiny.posit.co) applications.
 
 Krona charts are commonly used as interactive visualizations of the taxa
@@ -76,7 +76,11 @@ documents or [Shiny](https://shiny.posit.co) applications. It accepts
 the same input data as `make_krona()`, or can be used to display
 pre-generated charts.
 
-![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png)
+``` r
+plot_krona(grasslandfungi.records)
+```
+
+![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/img/example-snapshot-1.png)
 
 ## Third-party software
 
@@ -93,3 +97,7 @@ KRONA is a trademark of its respective owners (see
 [KRONA_LICENSE](KRONA_LICENSE)). This project is not affiliated with the
 Krona authors. The documentation and some function names still contain
 “Krona” as a term to describe these charts.
+
+## Related projects
+
+- [taxburst](https://github.com/taxburst/taxburst)

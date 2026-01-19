@@ -233,12 +233,18 @@ filter_display_opts <- function(x) {
 #' @param document.dev Snapshot format for non-HTML documents.
 #'   The default is to generate PNG images, as embedding them as vector graphics
 #'   may currently not result in the correct dimensions due to a
-#'   [problem with in Webshot2](https://github.com/quarto-dev/quarto-cli/issues/7682).
+#'   [problem with Webshot2](https://github.com/quarto-dev/quarto-cli/issues/7682).
 #' @param screenshot.delay Time (in s) to wait before taking a screenshot of a
 #'   HTML widget (such as the Krona charts from this package, but not exclusively).
 #'   The default of 0.05s differs from the default 0.2s used by Knitr. To be precise,
 #'   the Krona charts need no delay at all.
 #'   In case of problems with other widgets, a longer delay may be set.
+#'
+#' @details
+#'
+#' In static documents, this function simply does calls:
+#'
+#' `knitr::opts_chunk$set(dpi = document.dpi, dev = document.dev, screenshot.opts = list(delay = screenshot.delay))`
 #'
 #' @export
 taxplore_configure_snapshot = function(dpi = 300,

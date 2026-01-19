@@ -18,11 +18,16 @@ In case of problems with other widgets, a longer delay may be set.}
 \item{document.dev}{Snapshot format for non-HTML documents.
 The default is to generate PNG images, as embedding them as vector graphics
 may currently not result in the correct dimensions due to a
-\href{https://github.com/quarto-dev/quarto-cli/issues/7682}{problem with in Webshot2}.}
+\href{https://github.com/quarto-dev/quarto-cli/issues/7682}{problem with Webshot2}.}
 }
 \description{
 Sets default chunk options that work well both with HTML documents and other
 formats such as PDF.
 \strong{Caution}: The default image format and resolution are set for \emph{all chunks},
 not just those containing Krona charts.
+}
+\details{
+In static documents, this function simply does calls:
+
+\code{knitr::opts_chunk$set(dpi = document.dpi, dev = document.dev, screenshot.opts = list(delay = screenshot.delay))}
 }

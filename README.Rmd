@@ -58,17 +58,22 @@ make_krona(grasslandfungi.record_tax, outfile = 'krona_chart.html')
 
 Display the hierarchical charts, either as interactive plots launched from the console, or embedded in [R-Markdown](https://rmarkdown.rstudio.com)/[Quarto](https://quarto.org) documents or [Shiny](https://shiny.posit.co) applications. It accepts the same input data as `make_krona()`, or can be used to display pre-generated charts.
 
-```{r example-snapshot, screenshot.force = TRUE, fig.path = 'img/', include = FALSE}
+```{r example-snapshot, screenshot.force = TRUE, fig.path = 'img/', eval = FALSE}
 plot_krona(grasslandfungi.records)
 ```
 
-![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png)
+![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/img/example-snapshot-1.png)
 
 ## Third-party software
 
 This project includes unmodified copy of some files from https://github.com/marbl/Krona, notably the JavaScript code and images included in the HTML charts.
 
-In addition, a "minified" version of the script is provided (see [installation script](scripts/install_krona.R)).
+In addition, a "minified" version of the script is provided (see [installation script](https://github.com/markschl/taxplore/blob/main/scripts/install_krona.R)).
 When embedding charts, additional JavaScript code is sometimes injected for adjusting settings and taking static snapshots (see ).
 
 KRONA is a trademark of its respective owners (see [KRONA_LICENSE](KRONA_LICENSE)). This project is not affiliated with the Krona authors. The documentation and some function names still contain "Krona" as a term to describe these charts.
+
+## Related projects
+
+- [taxburst](https://github.com/taxburst/taxburst)
+
