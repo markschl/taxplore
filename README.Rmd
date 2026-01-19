@@ -5,7 +5,7 @@ output:
   html_document: default
 ---
 
-<a href="https://markschl.github.io/taxplore"><img src="inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
+<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
 
 This [R](https://cran.r-project.org) package provides functions for creating [Krona charts](https://github.com/marbl/Krona/wiki) and displaying/embedding them as [HTML widget](https://github.com/ramnathv/htmlwidgets) in different contexts or using them in [Shiny](https://shiny.posit.co) applications.
 
@@ -13,7 +13,7 @@ Krona charts are commonly used as interactive visualizations of the taxa in meta
 
 This package and does not require any additional software to be installed. It aims to be as flexible as possible.
 
-The **snapshot** feature allows embedding chart snapshots in non-interactive documents such as PDF or Word (see [tutorial]()).
+The **snapshot** feature allows embedding chart snapshots in non-interactive documents such as PDF or Word (see [tutorial](https://markschl.github.io/taxplore/articles/tutorial.html)).
 
 ## Installation
 
@@ -32,8 +32,8 @@ The documentation is at https://markschl.github.io/taxplore.
 
 Two in-depth tutorials are available:
 
-- A general [feature overview and tutorial]()
-- Additional examples with [phyloseq datsets]()
+- A general [feature overview and tutorial](https://markschl.github.io/taxplore/articles/tutorial.html)
+- Additional examples with [phyloseq datsets](https://markschl.github.io/taxplore/articles/phyloseq.html)
 
 ## Usage overview
 
@@ -58,9 +58,11 @@ make_krona(grasslandfungi.record_tax, outfile = 'krona_chart.html')
 
 Display the hierarchical charts, either as interactive plots launched from the console, or embedded in [R-Markdown](https://rmarkdown.rstudio.com)/[Quarto](https://quarto.org) documents or [Shiny](https://shiny.posit.co) applications. It accepts the same input data as `make_krona()`, or can be used to display pre-generated charts.
 
-```{r example-snapshot, screenshot.force = TRUE, fig.path = 'pkgdown/assets/'}
+```{r example-snapshot, screenshot.force = TRUE, fig.path = 'img/', include = FALSE}
 plot_krona(grasslandfungi.records)
 ```
+
+![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png)
 
 ## Third-party software
 

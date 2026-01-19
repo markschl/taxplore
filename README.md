@@ -1,7 +1,7 @@
 taxplore: R package for generating and displaying Krona charts
 ================
 
-<a href="https://markschl.github.io/taxplore"><img src="inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
+<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
 
 This [R](https://cran.r-project.org) package provides functions for
 creating [Krona charts](https://github.com/marbl/Krona/wiki) and
@@ -17,7 +17,8 @@ This package and does not require any additional software to be
 installed. It aims to be as flexible as possible.
 
 The **snapshot** feature allows embedding chart snapshots in
-non-interactive documents such as PDF or Word (see [tutorial]()).
+non-interactive documents such as PDF or Word (see
+[tutorial](https://markschl.github.io/taxplore/articles/tutorial.html)).
 
 ## Installation
 
@@ -40,8 +41,10 @@ The documentation is at <https://markschl.github.io/taxplore>.
 
 Two in-depth tutorials are available:
 
-- A general [feature overview and tutorial]()
-- Additional examples with [phyloseq datsets]()
+- A general [feature overview and
+  tutorial](https://markschl.github.io/taxplore/articles/tutorial.html)
+- Additional examples with [phyloseq
+  datsets](https://markschl.github.io/taxplore/articles/phyloseq.html)
 
 ## Usage overview
 
@@ -73,11 +76,7 @@ documents or [Shiny](https://shiny.posit.co) applications. It accepts
 the same input data as `make_krona()`, or can be used to display
 pre-generated charts.
 
-``` r
-plot_krona(grasslandfungi.records)
-```
-
-![](README_files/figure-gfm/example-snapshot-1.png)<!-- -->
+![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png)
 
 ## Third-party software
 
