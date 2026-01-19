@@ -1,0 +1,6 @@
+url: https://markschl.github.io/taxplore/
+template:
+  bootstrap: 5
+  light-switch: yes
+  bootswatch: cosmo
+
