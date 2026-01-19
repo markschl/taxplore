@@ -1,4 +1,4 @@
-# Phyloseq datset examples
+# Phyloseq dataset examples
 
 This tutorial explores real-world datasets provided in the phyloseq
 format. [Phyloseq](https://joey711.github.io/phyloseq) is a popular data

@@ -1,5 +1,12 @@
 # Feature overview and tutorial
 
+## Installation
+
+``` r
+# install.packages('remotes')
+remotes::install_github('markschl/taxplore')
+```
+
 ## Setup
 
 Load the package:
@@ -37,21 +44,14 @@ taxonomic lineages, one row per record (taxa can be repeated):
 
 ``` r
 data(grasslandfungi.records)
-head(grasslandfungi.records)
-#>   kingdom        phylum          class      order         family       genus
-#> 1   Fungi Basidiomycota Agaricomycetes Agaricales Hygrophoraceae  Gliophorus
-#> 2   Fungi Basidiomycota Agaricomycetes Russulales    Russulaceae   Lactarius
-#> 3   Fungi Basidiomycota Agaricomycetes Agaricales    Inocybaceae     Inocybe
-#> 4   Fungi Basidiomycota Agaricomycetes Agaricales Cortinariaceae Cortinarius
-#> 5   Fungi Basidiomycota Agaricomycetes Agaricales Entolomataceae    Entoloma
-#> 6   Fungi Basidiomycota Agaricomycetes Russulales    Russulaceae     Russula
-#>                  species
-#> 1 Gliophorus psittacinus
-#> 2   Lactarius deterrimus
-#> 3         Inocybe oreina
-#> 4  Cortinarius infractus
-#> 5                   <NA>
-#> 6      Russula sanguinea
+head(grasslandfungi.records[c(3:5, 7)])
+#>            class      order         family                species
+#> 1 Agaricomycetes Agaricales Hygrophoraceae Gliophorus psittacinus
+#> 2 Agaricomycetes Russulales    Russulaceae   Lactarius deterrimus
+#> 3 Agaricomycetes Agaricales    Inocybaceae         Inocybe oreina
+#> 4 Agaricomycetes Agaricales Cortinariaceae  Cortinarius infractus
+#> 5 Agaricomycetes Agaricales Entolomataceae                   <NA>
+#> 6 Agaricomycetes Russulales    Russulaceae      Russula sanguinea
 ```
 
 The taxonomic hierarchy of the records from the two visits can easily be

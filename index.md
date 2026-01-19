@@ -95,7 +95,7 @@ When embedding charts, additional JavaScript code is sometimes injected
 for adjusting settings and taking static snapshots (see ).
 
 KRONA is a trademark of its respective owners (see
-[KRONA_LICENSE](https://markschl.github.io/taxplore/KRONA_LICENSE)).
+[KRONA_LICENSE](https://github.com/markschl/taxplore/blob/main/KRONA_LICENSE)).
 This project is not affiliated with the Krona authors. The documentation
 and some function names still contain “Krona” as a term to describe
 these charts.
