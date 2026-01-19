@@ -5,7 +5,7 @@ output:
   html_document: default
 ---
 
-<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" height="200" style="margin-left:1em" align="right" /></a>
+<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" width="250" style="margin-left:1em; max-width:12em" align="right" /></a>
 
 This [R](https://cran.r-project.org) package provides functions for creating [Krona charts](https://github.com/marbl/Krona/wiki) and displaying/embedding them as [HTML widget](https://github.com/ramnathv/htmlwidgets) in different contexts or using them in [Shiny](https://shiny.posit.co) applications.
 

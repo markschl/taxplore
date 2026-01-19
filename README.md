@@ -1,12 +1,12 @@
 taxplore: R package for generating and displaying Krona charts
 ================
 
-<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" style="margin-left:1em; max-width: 15em" align="right" /></a>
+<a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" width="250" style="margin-left:1em; max-width:12em" align="right" /></a>
 
 This [R](https://cran.r-project.org) package provides functions for
 creating [Krona charts](https://github.com/marbl/Krona/wiki) and
 displaying/embedding them as [HTML
-widget](https://www.htmlwidgets.org) in different contexts
+widget](https://github.com/ramnathv/htmlwidgets) in different contexts
 or using them in [Shiny](https://shiny.posit.co) applications.
 
 Krona charts are commonly used as interactive visualizations of the taxa
@@ -89,9 +89,10 @@ This project includes unmodified copy of some files from
 included in the HTML charts.
 
 In addition, a “minified” version of the script is provided (see
-[installation script](scripts/install_krona.R)). When embedding charts,
-additional JavaScript code is sometimes injected for adjusting settings
-and taking static snapshots (see ).
+[installation
+script](https://github.com/markschl/taxplore/blob/main/scripts/install_krona.R)).
+When embedding charts, additional JavaScript code is sometimes injected
+for adjusting settings and taking static snapshots (see ).
 
 KRONA is a trademark of its respective owners (see
 [KRONA_LICENSE](KRONA_LICENSE)). This project is not affiliated with the
