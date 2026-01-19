@@ -76,7 +76,11 @@ the same input data as
 [`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md),
 or can be used to display pre-generated charts.
 
-![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png)
+``` r
+plot_krona(grasslandfungi.records)
+```
+
+![](https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/img/example-snapshot-1.png)
 
 ## Third-party software
 
@@ -86,7 +90,7 @@ included in the HTML charts.
 
 In addition, a “minified” version of the script is provided (see
 [installation
-script](https://markschl.github.io/taxplore/scripts/install_krona.R)).
+script](https://github.com/markschl/taxplore/blob/main/scripts/install_krona.R)).
 When embedding charts, additional JavaScript code is sometimes injected
 for adjusting settings and taking static snapshots (see ).
 
@@ -95,3 +99,7 @@ KRONA is a trademark of its respective owners (see
 This project is not affiliated with the Krona authors. The documentation
 and some function names still contain “Krona” as a term to describe
 these charts.
+
+## Related projects
+
+- [taxburst](https://github.com/taxburst/taxburst)

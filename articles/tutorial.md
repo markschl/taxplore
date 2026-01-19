@@ -11,20 +11,18 @@ library(taxplore)
 ### Snapshot configuration (optional)
 
 The charts can be embedded in static documents (PDF, Word, etc.). See
-also [auto-snapshots](#auto-snapshots) below. Here we run the small
-small helper function
-[`taxplore_configure_snapshot()`](https://markschl.github.io/taxplore/reference/taxplore_configure_snapshot.md),
-which makes sure that snapshots are PNG images with a resolution of 300
-DPI. This is only relevant if “knitting” this document to PDF or Word,
-etc. Otherwise, this has no effect.
+also [auto-snapshots](#auto-snapshots) below. Here we run a small helper
+function for making sure that snapshots are PNG images with a resolution
+of 300 DPI. This is only relevant if “knitting” this document to PDF or
+Word, etc. Otherwise, this has no effect.
 
 ``` r
 taxplore_configure_snapshot()
 ```
 
-> **Note** This function modifies the `dev`, `dpi` and `screenshot.opts`
-> settings for *all* chunks. However, it is always possible to override
-> the settings for individual chunks.
+> **Note** This modifies the `dev`, `dpi` and `screenshot.opts` settings
+> for *all* chunks. However, it is always possible to change the
+> settings for individual chunks.
 
 ## Data formats
 
@@ -142,7 +140,7 @@ Finally, it is possible to directly display file containing a Krona
 chart:
 
 ``` r
-plot_krona(file = 'https://krona.sourceforge.net/examples/xml.krona.html')
+plot_krona(file = 'http://marbl.github.io/Krona/examples/metarep-blast.krona.html')
 ```
 
 … or
@@ -199,12 +197,15 @@ plot_krona(grasslandfungi[tax_ranks],
        dataset_group = 'separate')
 ```
 
-> In static contexts without user interaction (PDF, Word, etc.), a
-> snapshot of the first dataset (*visit_1*) is taken.
+> Click on species nodes and check the GBIF/SwissFungi links in the
+> topright corner
 
-> `dataset_group` can also be a character vector of length
-> `ncol(magnitude)`; for phyloseq objects `group_vars` can be specified
-> (see vignette(“phyloseq”)\`).
+`dataset_group` can also be a character vector of length
+`ncol(magnitude)`; for phyloseq objects `group_vars` can be specified
+(see vignette(“phyloseq”)\`).
+
+In static contexts without user interaction (PDF, Word, etc.), a
+snapshot of the first dataset (*visit_1*) is taken.
 
 ### Data-dependent custom coloring
 
@@ -378,7 +379,7 @@ be specified:
 
 ``` r
 plot_krona(grasslandfungi.records,
-       display = ChartDisplayOpts(font = 15, showMagnitude = TRUE))
+       display = ChartDisplayOpts(font = 15, showMagnitude = TRUE, key = FALSE))
 ```
 
 > In R-Markdown chunks, set `cache = FALSE` if adjusting display options
@@ -387,16 +388,15 @@ plot_krona(grasslandfungi.records,
 To make all following charts look the same, use:
 
 ``` r
-set_chart_display_opts(font = 15, showMagnitude = TRUE)
+set_chart_display_opts(font = 15, showMagnitude = TRUE, key = FALSE)
 ```
 
 ## Auto-snapshots
 
 In “static” documents such as PDF, Word, etc., snapshots are
 automatically taken. In this “snapshot mode”, no buttons and other
-controls are shown. This behavior can be forced (or prevented) with the
-`interactive` option in
-[`plot_krona()`](https://markschl.github.io/taxplore/reference/plot_krona.md):
+controls are shown. This behavior can be forced (or prevented) with
+`interactive = TRUE` or `interactive = FALSE`:
 
 ``` r
 plot_krona(grasslandfungi.records, interactive = FALSE)
@@ -469,9 +469,10 @@ library(shiny)
 library(phyloseq)
 library(taxplore)
 
-data(GlobalPatterns, enterotype)
+data(grasslandfungi, grasslandfungi.records, GlobalPatterns, enterotype)
 
 # each dataset is a list(taxonomy, magnitude)
+tax_ranks <- names(grasslandfungi.records)
 datasets <- list(
   `Survey of grassland fungi` = list(grasslandfungi[tax_ranks], grasslandfungi$n_total),
   `Global patterns of 16S diversity` = list(tax_table(GlobalPatterns), taxa_sums(GlobalPatterns)),

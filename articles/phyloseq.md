@@ -61,16 +61,23 @@ First, do the differential abundance testing using the *DESeq2* package:
 
 ``` r
 library(phyloseq)
-library(DESeq2)
 
-filepath = system.file('extdata', 'study_1457_split_library_seqs_and_mapping.zip',
-                       package='phyloseq')
-kostic = microbio_me_qiime(filepath)
-kostic = subset_samples(kostic, DIAGNOSIS != 'None')
+filepath <- system.file('extdata', 'study_1457_split_library_seqs_and_mapping.zip',
+                        package='phyloseq')
+kostic <- microbio_me_qiime(filepath)
+kostic <- subset_samples(kostic, DIAGNOSIS != 'None')
 
-diagdds = phyloseq_to_deseq2(kostic, ~ DIAGNOSIS)
-diagdds = DESeq(diagdds, sfType = 'poscounts', test = 'Wald', fitType = 'parametric')
-res = results(diagdds, cooksCutoff = F)
+# use pre-computed log2-fold change and p-values if possible
+kostic_da_file <- '_kostic_da.txt'
+if (!file.exists(kostic_da_file)) {
+  library(DESeq2)
+  diagdds <- phyloseq_to_deseq2(kostic, ~ DIAGNOSIS)
+  diagdds <- DESeq(diagdds, sfType = 'poscounts', test = 'Wald', fitType = 'parametric')
+  res <- results(diagdds, cooksCutoff = F)
+  kostic_da <- as.data.frame(res)[,c('log2FoldChange', 'padj')]
+  write.table(kostic_da, kostic_da_file, sep = '\t', quote = FALSE)
+}
+kostic_da <- read.delim(kostic_da_file)
 ```
 
 After making sure that the taxa are still in the same order in the
@@ -83,9 +90,9 @@ with the cancer is clearly visible.
 ``` r
 library(taxplore)
 
-stopifnot(taxa_names(kostic) == rownames(res))
+stopifnot(taxa_names(kostic) == rownames(kostic_da))
 plot_krona(kostic,
-       color = res$log2FoldChange,
+       color = kostic_da$log2FoldChange,
        color_label = 'avg. log2 fold change',
         # optional, to adjust the color scale
        color_value_range = c(-1.8, 1.8))
@@ -98,7 +105,7 @@ is significant (see `summary_fn` in
 [`ChartAttribute()`](https://markschl.github.io/taxplore/reference/ChartAttribute.md)).
 
 ``` r
-logfc_sig <- with(res, ifelse(!is.na(padj) & padj < 0.05, log2FoldChange, NA))
+logfc_sig <- with(kostic_da, ifelse(!is.na(padj) & padj < 0.05, log2FoldChange, NA))
 plot_krona(kostic,
        color = logfc_sig,
        color_label = 'avg. log2 fold change (p.adj < 0.05)',

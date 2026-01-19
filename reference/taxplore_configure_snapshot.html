@@ -81,9 +81,14 @@ In case of problems with other widgets, a longer delay may be set.</p></dd>
 <dd><p>Snapshot format for non-HTML documents.
 The default is to generate PNG images, as embedding them as vector graphics
 may currently not result in the correct dimensions due to a
-<a href="https://github.com/quarto-dev/quarto-cli/issues/7682" class="external-link">problem with in Webshot2</a>.</p></dd>
+<a href="https://github.com/quarto-dev/quarto-cli/issues/7682" class="external-link">problem with Webshot2</a>.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>In static documents, this function simply does calls:</p>
+<p><code>knitr::opts_chunk$set(dpi = document.dpi, dev = document.dev, screenshot.opts = list(delay = screenshot.delay))</code></p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

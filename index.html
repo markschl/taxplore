@@ -63,7 +63,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="taxplore-r-package-for-generating-and-displaying-krona-charts">taxplore: R package for generating and displaying Krona charts<a class="anchor" aria-label="anchor" href="#taxplore-r-package-for-generating-and-displaying-krona-charts"></a>
 </h1></div>
-<p><a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" height="200" style="margin-left:1em" align="right"></a></p>
+<p><a href="https://markschl.github.io/taxplore"><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/inst/taxplore.png" width="250" style="margin-left:1em; max-width:12em" align="right"></a></p>
 <p>This <a href="https://cran.r-project.org" class="external-link">R</a> package provides functions for creating <a href="https://github.com/marbl/Krona/wiki" class="external-link">Krona charts</a> and displaying/embedding them as <a href="https://github.com/ramnathv/htmlwidgets" class="external-link">HTML widget</a> in different contexts or using them in <a href="https://shiny.posit.co" class="external-link">Shiny</a> applications.</p>
 <p>Krona charts are commonly used as interactive visualizations of the taxa in metagenomic and metabarcoding (microbiota) samples, but can in principle be used to visualize all kinds of hierarchical data.</p>
 <p>This package and does not require any additional software to be installed. It aims to be as flexible as possible.</p>
@@ -108,15 +108,24 @@
 <h3 id="plot_krona">plot_krona<a class="anchor" aria-label="anchor" href="#plot_krona"></a>
 </h3>
 <p>Display the hierarchical charts, either as interactive plots launched from the console, or embedded in <a href="https://rmarkdown.rstudio.com" class="external-link">R-Markdown</a>/<a href="https://quarto.org" class="external-link">Quarto</a> documents or <a href="https://shiny.posit.co" class="external-link">Shiny</a> applications. It accepts the same input data as <code><a href="reference/make_krona.html">make_krona()</a></code>, or can be used to display pre-generated charts.</p>
-<p><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/img/example-snapshot-1.png"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_krona.html">plot_krona</a></span><span class="op">(</span><span class="va">grasslandfungi.records</span><span class="op">)</span></span></code></pre></div>
+<p><img src="https://raw.githubusercontent.com/markschl/taxplore/refs/heads/main/img/example-snapshot-1.png"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="third-party-software">Third-party software<a class="anchor" aria-label="anchor" href="#third-party-software"></a>
 </h2>
 <p>This project includes unmodified copy of some files from <a href="https://github.com/marbl/Krona" class="external-link uri">https://github.com/marbl/Krona</a>, notably the JavaScript code and images included in the HTML charts.</p>
-<p>In addition, a “minified” version of the script is provided (see <a href="scripts/install_krona.R">installation script</a>). When embedding charts, additional JavaScript code is sometimes injected for adjusting settings and taking static snapshots (see ).</p>
+<p>In addition, a “minified” version of the script is provided (see <a href="https://github.com/markschl/taxplore/blob/main/scripts/install_krona.R" class="external-link">installation script</a>). When embedding charts, additional JavaScript code is sometimes injected for adjusting settings and taking static snapshots (see ).</p>
 <p>KRONA is a trademark of its respective owners (see <a href="KRONA_LICENSE">KRONA_LICENSE</a>). This project is not affiliated with the Krona authors. The documentation and some function names still contain “Krona” as a term to describe these charts.</p>
+</div>
+<div class="section level2">
+<h2 id="related-projects">Related projects<a class="anchor" aria-label="anchor" href="#related-projects"></a>
+</h2>
+<ul>
+<li><a href="https://github.com/taxburst/taxburst" class="external-link">taxburst</a></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

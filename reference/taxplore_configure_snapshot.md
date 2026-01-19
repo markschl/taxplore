@@ -29,5 +29,11 @@ taxplore_configure_snapshot(dpi = 300, dev = "png", screenshot.delay = 0.05)
 
   Snapshot format for non-HTML documents. The default is to generate PNG
   images, as embedding them as vector graphics may currently not result
-  in the correct dimensions due to a [problem with in
+  in the correct dimensions due to a [problem with
   Webshot2](https://github.com/quarto-dev/quarto-cli/issues/7682).
+
+## Details
+
+In static documents, this function simply does calls:
+
+`knitr::opts_chunk$set(dpi = document.dpi, dev = document.dev, screenshot.opts = list(delay = screenshot.delay))`
