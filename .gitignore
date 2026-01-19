@@ -1,0 +1,15 @@
+_*
+*~
+taxdb/
+vignettes/*.html
+vignettes/*.pdf
+docs/
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.venv/
+docs/
+inst/doc/
+!_pkgdown.yml
+!_targets.R

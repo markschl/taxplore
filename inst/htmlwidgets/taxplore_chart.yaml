@@ -1,0 +1,7 @@
+dependencies:
+  - name: taxplore_chart
+    version: 0.1
+    src: KronaTools
+    attachment:
+      - src/krona-2.0.js
+    all_files: true

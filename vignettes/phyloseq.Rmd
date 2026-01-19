@@ -1,0 +1,99 @@
+---
+title: "Phyloseq datset examples"
+output:
+  rmarkdown::html_vignette: default
+  html_document: default
+  word_document: default
+  pdf_document: default
+vignette: >
+  %\VignetteIndexEntry{Phyloseq datset examples}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+# check for phyloseq
+has_phyloseq <- requireNamespace('phyloseq', quietly = TRUE)
+knitr::opts_chunk$set(eval = has_phyloseq)
+if (!has_phyloseq) {
+  warning('Please install phyloseq (https://www.bioconductor.org/packages/release/bioc/html/phyloseq.html) to run this tutorial; otherwise the output remains empty.')
+}
+```
+
+This tutorial explores real-world datasets provided in the phyloseq format. [Phyloseq](https://joey711.github.io/phyloseq) is a popular data format for metagenomic and microbiome/metabarcoding datasets. The objects usually contain both taxonomic and abundance information.
+
+```{r setup}
+library(taxplore)
+library(phyloseq)
+# ensure nice output in all contexts
+taxplore_configure_snapshot()
+```
+
+# The GlobalPatterns dataset
+
+The  *phyloseq* package includes a high-throughput 16S metabarcoding dataset from different substrates ([Caporaso et al. 2010](https://doi.org/10.1073/pnas.1000080107)):
+
+```{r}
+data(GlobalPatterns)
+GlobalPatterns
+plot_krona(GlobalPatterns)
+```
+
+## Multiple datasets
+
+Environmental/microbiome datasets often have many samples, whose composition can be visualized separately or as sample groups. This is of course only useful with interactive charts where differences between groups can be explored by manually selecting them. Static snapshots e.g. embedded in a PDF document shows only the first dataset.
+
+For phyloseq objects `group_vars = c('var1', 'var2', ...)` can be specified to specify combinations of `sample_data()` groups:
+Alternatively, supply `dataset_group = 'separate'`
+
+
+```{r}
+plot_krona(GlobalPatterns, group_vars = 'SampleType')
+```
+
+## Custom coloring
+
+Another nice feature is the possibility to set the fill color depending on some property of the entries. We reproduce this [differential abundance analysis example](http://joey711.github.io/phyloseq-extensions/DESeq2.html) using data from [Kostic et al. (2012)](http://www.genome.org/cgi/doi/10.1101/gr.126573.111) and visualize the results by coloring the taxa according to their association with colorectal carcinoma.
+
+First, do the differential abundance testing using the *DESeq2* package:
+
+```{r message=F, warning=F, results='hide'}
+library(phyloseq)
+library(DESeq2)
+
+filepath = system.file('extdata', 'study_1457_split_library_seqs_and_mapping.zip',
+                       package='phyloseq')
+kostic = microbio_me_qiime(filepath)
+kostic = subset_samples(kostic, DIAGNOSIS != 'None')
+
+diagdds = phyloseq_to_deseq2(kostic, ~ DIAGNOSIS)
+diagdds = DESeq(diagdds, sfType = 'poscounts', test = 'Wald', fitType = 'parametric')
+res = results(diagdds, cooksCutoff = F)
+```
+
+After making sure that the taxa are still in the same order in the results data frame, we plot the phyloseq object and additionally supply the log2 fold change with respect to the diagnosis (`color = ...`) to illustrate by the strength of the association (positive or negative) with colorectal carcinoma. The strong association of *Fusobacterium* with the cancer is clearly visible.
+
+```{r}
+library(taxplore)
+
+stopifnot(taxa_names(kostic) == rownames(res))
+plot_krona(kostic,
+       color = res$log2FoldChange,
+       color_label = 'avg. log2 fold change',
+        # optional, to adjust the color scale
+       color_value_range = c(-1.8, 1.8))
+```
+
+The above chart also colors non-significant associations. We can set the log2 fold change to `NA` for these, so only significant nodes are shown. Higher ranks are still colored if any association of the contained taxa is significant (see `summary_fn` in `ChartAttribute()`).
+
+```{r}
+logfc_sig <- with(res, ifelse(!is.na(padj) & padj < 0.05, log2FoldChange, NA))
+plot_krona(kostic,
+       color = logfc_sig,
+       color_label = 'avg. log2 fold change (p.adj < 0.05)',
+       color_value_range = c(-1.8, 1.8))
+```
