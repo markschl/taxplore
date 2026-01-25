@@ -197,9 +197,6 @@ plot_krona(grasslandfungi[tax_ranks],
        dataset_group = 'separate')
 ```
 
-> Click on species nodes and check the GBIF/SwissFungi links in the
-> topright corner
-
 `dataset_group` can also be a character vector of length
 `ncol(magnitude)`; for phyloseq objects `group_vars` can be specified
 (see vignette(“phyloseq”)\`).
@@ -244,8 +241,7 @@ attrs <- list(
   ChartAttribute(
     'GBIF',
     data = as.character(grasslandfungi$gbif_taxon_id),
-    hrefBase = 'https://www.gbif.org/species/',
-    missing_value = NA_character_
+    hrefBase = 'https://www.gbif.org/species/'
   ),
   ChartAttribute(
     'SwissFungi',
@@ -260,8 +256,8 @@ plot_krona(grasslandfungi[tax_ranks], grasslandfungi$n_total, attributes=attrs,
        total_label = 'Records')
 ```
 
-> [`ChartAttribute()`](https://markschl.github.io/taxplore/reference/ChartAttribute.md)
-> offers some more options for customizing URLs and displayed text
+> Click on species nodes and check the GBIF/SwissFungi links in the
+> topright corner
 
 > **Note on higher taxonomic ranks**: If numeric IDs were provided, they
 > would be averaged at higher ranks, which produces incorrect IDs for
@@ -321,8 +317,8 @@ plot_krona(classification, attributes = list(
 Behind the scenes,
 [`make_krona()`](https://markschl.github.io/taxplore/reference/make_krona.md)
 assembles an [XML
-document](https://github.com/marbl/Krona/wiki/Krona-2.0-XML-Specification)
-document, which is then passed to
+document](https://github.com/marbl/Krona/wiki/Krona-2.0-XML-Specification),
+which is then passed to
 [`generate_krona_html()`](https://markschl.github.io/taxplore/reference/generate_krona_html.md).
 
 #### Use KronaTools instead
