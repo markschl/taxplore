@@ -5,9 +5,9 @@ taxplore: R package for generating and displaying Krona charts
 
 This [R](https://cran.r-project.org) package provides functions for
 creating [Krona charts](https://github.com/marbl/Krona/wiki) and
-displaying/embedding them as [HTML
-widget](https://github.com/ramnathv/htmlwidgets) in different contexts
-or using them in [Shiny](https://shiny.posit.co) applications.
+displaying/embedding them as [HTML widget](https://www.htmlwidgets.org)
+in different contexts or using them in [Shiny](https://shiny.posit.co)
+applications.
 
 Krona charts are commonly used as interactive visualizations of the taxa
 in metagenomic and metabarcoding (microbiota) samples, but can in
@@ -92,7 +92,7 @@ In addition, a “minified” version of the script is provided (see
 [installation
 script](https://github.com/markschl/taxplore/blob/main/scripts/install_krona.R)).
 When embedding charts, additional JavaScript code is sometimes injected
-for adjusting settings and taking static snapshots (see ).
+for adjusting settings and taking static snapshots.
 
 KRONA is a trademark of its respective owners (see
 [KRONA_LICENSE](https://github.com/markschl/taxplore/blob/main/KRONA_LICENSE)).
@@ -100,6 +100,11 @@ This project is not affiliated with the Krona authors. The documentation
 and some function names still contain “Krona” as a term to describe
 these charts.
 
-## Related projects
+Reference: [Ondov BD, Bergman NH, and Phillippy AM. Interactive
+metagenomic visualization in a Web browser. BMC Bioinformatics. 2011 Sep
+30; 12(1):385.](https://doi.org/10.1186/1471-2105-12-385)
 
-- [taxburst](https://github.com/taxburst/taxburst)
+## Similar projects
+
+- [taxburst](https://github.com/taxburst/taxburst) is a Python-based
+  alternative to KronaTools
